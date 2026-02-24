@@ -1,0 +1,190 @@
+body {
+  background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+  font-family: 'Segoe UI', sans-serif;
+  color: #4a0e1f;
+}
+button {
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Container */
+.gallery-container {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Title */
+.title {
+  margin-bottom: 20px;
+  font-size: 32px;
+  color: #b3003b;
+  font-weight: bold;
+}
+
+/* Masonry Layout */
+.masonry {
+  column-count: 4;
+  column-gap: 12px;
+}
+
+@media (max-width: 1000px) {
+  .masonry {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 600px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+
+/* Card */
+.card {
+  display: inline-block; /* Add this line */
+  width: 100%;
+  margin-bottom: 20px;
+  break-inside: avoid;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(179, 0, 59, 0.2);
+}
+
+/* Image */
+.card img {
+  width: 100%;
+  border-radius: 15px;
+  transition: transform 0.4s ease;
+}
+
+/* Hover zoom */
+.card:hover img {
+  transform: scale(1.07);
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(179, 0, 59, 0.7), transparent);
+  opacity: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition: 0.3s ease;
+}
+
+.card:hover .overlay {
+  opacity: 1;
+}
+
+/* Download Button */
+.download-btn {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  color: #8a002e;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Space from bottom of card */
+}
+.download-btn:hover {
+  background: #8a002e;
+  color: #ffffff;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(138, 0, 46, 0.3);
+}
+.download-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+/* Load More Button */
+.load-btn {
+  position: relative;
+  margin: 60px auto;
+  display: block;
+  padding: 16px 45px;
+  background: #ffffff;
+  color: #8a002e;
+  border: 2px solid #8a002e;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.load-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: #8a002e;
+  transition: width 0.4s ease;
+  z-index: -1;
+}
+
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure this is very high */
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 80%;
+  object-fit: contain;
+}
+.lightbox .close-btn
+{
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  background:rgb(249, 39, 39);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox .download-btn {
+  margin-top: 30px;
+  padding: 14px 35px;
+  background: #8a002e;
+  color: white;
+  font-size: 14px;
+}
+
+.lightbox .download-btn:hover {
+  background: #ff4d6d;
+  transform: translateY(-5px);
+}
