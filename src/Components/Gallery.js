@@ -13,8 +13,8 @@ function Gallery({ selectedEvent, page, setPage, photos, setPhotos }) {
   const fetchPhotos = async () => {
     const url =
       selectedEvent === "All"
-        ? `http://localhost:5000/photos?page=${page}`
-        : `http://localhost:5000/photos?page=${page}&event=${selectedEvent}`;
+        ? `https://wedding-backend-vvsy.onrender.com/photos?page=${page}`
+        : `https://wedding-backend-vvsy.onrender.com/photos?page=${page}&event=${selectedEvent}`;
 
     const res = await axios.get(url);
 
