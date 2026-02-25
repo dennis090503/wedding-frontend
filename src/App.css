@@ -1,3 +1,4 @@
+/* KEEP THESE: Original React Defaults */
 .App {
   text-align: center;
 }
@@ -13,112 +14,127 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* PASTE NEW THEME BELOW THIS LINE */
+/* --- Global Theme Sync --- */
+:root {
+  --wedding-plum: #880e4f; 
+  --wedding-pink: #fce4ec; 
+  --wedding-gold: #c2a38a;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-/* Modern Wedding Theme Login */
-/* Update these specific blocks in App.css */
-.login-screen {
-    height: 100vh !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%) !important;
-    position: fixed !important; /* Ensures it covers the whole screen */
+/* --- Loader Centering Fix --- */
+.loader-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--wedding-pink);
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    z-index: 9999;
-}
-
-.login-box {
-    background: white !important;
-    padding: 3rem !important;
-    border-radius: 20px !important;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
-    text-align: center !important;
-    max-width: 400px !important;
-    width: 90% !important;
-}
-
-.login-box h2 {
-    color: #4a4a4a;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    letter-spacing: 1px;
-}
-
-.login-box p {
-    color: #7a7a7a;
-    margin-bottom: 2rem;
-}
-
-.login-box input {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 1.5rem;
-    border: 1px solid #ddd;
-    border-radius: 30px; /* Rounded pill shape */
-    outline: none;
-    transition: 0.3s;
-    text-align: center;
-}
-
-.login-box input:focus {
-    border-color: #c2a38a;
-    box-shadow: 0 0 8px rgba(194, 163, 138, 0.3);
-}
-
-.login-box button {
-    width: 100%;
-    padding: 12px;
-    background-color: #4a4a4a;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: 600;
-    letter-spacing: 1px;
-    transition: 0.3s ease;
-}
-
-.login-box button:hover {
-    background-color: #c2a38a; /* Soft gold/tan on hover */
-    transform: translateY(-2px);
+    z-index: 10000;
 }
 
 .spinner {
     width: 60px;
     height: 60px;
-    border: 3px solid rgba(194, 163, 138, 0.1);
-    border-top: 3px solid #c2a38a;
+    border: 4px solid rgba(136, 14, 79, 0.1);
+    border-top: 4px solid var(--wedding-plum);
     border-radius: 50%;
-    animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    animation: App-logo-spin 1s linear infinite; 
 }
 
-.loader-container p {
-    margin-top: 15px;
-    color: #c2a38a;
-    font-style: italic;
-    letter-spacing: 2px;
+/* --- Login Screen Theme & Alignment --- */
+.login-screen {
+    height: 100vh !important;
+    width: 100vw !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: var(--wedding-pink) !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.95) !important;
+    padding: 2.5rem 1.5rem !important;
+    border-radius: 24px !important;
+    box-shadow: 0 10px 30px rgba(136, 14, 79, 0.1) !important;
+    text-align: center !important;
+    max-width: 350px !important;
+    width: 85% !important;
+    border: 1px solid rgba(136, 14, 79, 0.05);
+}
+
+.login-box h2 {
+    color: var(--wedding-plum);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.login-box p {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+}
+
+/* --- Mobile Alignment Fix for Form --- */
+.login-box form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.login-box input {
+    width: 100% !important;
+    box-sizing: border-box; 
+    padding: 14px 20px !important;
+    margin-bottom: 1rem !important;
+    border: 1.5px solid #eee !important;
+    border-radius: 50px !important;
+    outline: none;
+    font-size: 1rem;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.login-box input:focus {
+    border-color: var(--wedding-plum) !important;
+    background: #fff;
+}
+
+.login-box button {
+    width: 100% !important;
+    padding: 14px !important;
+    background-color: var(--wedding-plum) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50px !important;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.login-box button:hover {
+    background-color: #6a0b3d !important;
+    transform: translateY(-2px);
+}
+
+.login-box button:active {
+    transform: translateY(0);
+}
+
+@keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
