@@ -2,7 +2,7 @@ import Gallery from "./Components/Gallery";
 import Navbar from "./Components/Navbar";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import "./App.css";
 function App() {
     const [selectedEvent, setSelectedEvent] = useState("All");
     const [page, setPage] = useState(1);
