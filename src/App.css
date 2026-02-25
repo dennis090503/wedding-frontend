@@ -164,7 +164,28 @@
 .unlock-btn:active {
     transform: scale(0.98);
 }
+.no-more-text {
+    color: var(--wedding-plum);
+    font-family: 'Playfair Display', serif; /* Or your main font */
+    font-style: italic;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
 
+/* Adds elegant lines to either side of the text */
+.no-more-text::before,
+.no-more-text::after {
+    content: "";
+    height: 1px;
+    width: 50px;
+    background-color: var(--wedding-plum);
+    opacity: 0.3;
+}
 /* --- Animations --- */
 @keyframes App-logo-spin {
     from { transform: rotate(0deg); }

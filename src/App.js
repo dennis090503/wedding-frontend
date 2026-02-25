@@ -98,6 +98,7 @@ function App() {
                 setPage={setPage}
                 photos={photos}
                 setPhotos={setPhotos}
+                counts={counts} 
             />
         </div>
     );

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Gallery.css";
-import PhotoViewer from "./PhotoViewer"
-function Gallery({ selectedEvent, page, setPage, photos, setPhotos }) {
+import PhotoViewer from "./PhotoViewer";
+
+function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [scrollPos, setScrollPos] = useState(0);
 
@@ -16,14 +17,18 @@ function Gallery({ selectedEvent, page, setPage, photos, setPhotos }) {
         ? `https://wedding-backend-vvsy.onrender.com/photos?page=${page}`
         : `https://wedding-backend-vvsy.onrender.com/photos?page=${page}&event=${selectedEvent}`;
 
-    const res = await axios.get(url);
+    try {
+      const res = await axios.get(url);
 
-    setPhotos((prev) => {
-      const newPhotos = res.data.filter(
-        (newItem) => !prev.some((p) => p._id === newItem._id)
-      );
-      return [...prev, ...newPhotos];
-    });
+      setPhotos((prev) => {
+        const newPhotos = res.data.filter(
+          (newItem) => !prev.some((p) => p._id === newItem._id)
+        );
+        return [...prev, ...newPhotos];
+      });
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+    }
   };
 
   // Open PhotoViewer
@@ -37,59 +42,81 @@ function Gallery({ selectedEvent, page, setPage, photos, setPhotos }) {
     setSelectedPhoto(null);
     window.scrollTo(0, scrollPos);
   };
+
   const handleDownload = async (url, filename) => {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const blobUrl = window.URL.createObjectURL(blob);
-    
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.download = filename || "wedding-photo.jpg";
-    document.body.appendChild(link);
-    link.click();
-    
-    // Cleanup
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(blobUrl);
-  } catch (error) {
-    console.error("Download failed", error);
-    // Fallback: open in new tab if blob fails
-    window.open(url, "_blank");
-  }
-};
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = filename || "wedding-photo.jpg";
+      document.body.appendChild(link);
+      link.click();
+      
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Download failed", error);
+      // Fallback: open in new tab if blob fails
+      window.open(url, "_blank");
+    }
+  };
+
+  // Determine if there are more photos to load based on the counts from backend
+  const totalPhotosInEvent = counts[selectedEvent] || 0;
+  const hasMore = photos.length < totalPhotosInEvent;
+
   return (
     <div className="gallery-container">
       <h1 className="title">💍 Wedding Memories</h1>
+      
       <div className="masonry">
-     {photos.map((p, i) => {
-        const thumb = p.url.replace("/upload/", "/upload/w_400,q_auto/");
-        return (
-          <div className="card" key={i} onClick={() => handleClickPhoto(p)} style={{ cursor: "pointer" }}>
-            <img
-              src={thumb}
-              alt={p.name}
-              loading="lazy"
-            />
-            <div className="overlay">
-            <button
-              className="download-btn"
-              onClick={(e) => {
-                e.stopPropagation(); // Stops the PhotoViewer from opening
-                handleDownload(p.url, p.name); // Use the new function above
-              }}
+        {photos.map((p, i) => {
+          // Cloudinary dynamic optimization for thumbnails
+          const thumb = p.url.replace("/upload/", "/upload/w_400,q_auto/");
+          return (
+            <div 
+              className="card" 
+              key={p._id || i} 
+              onClick={() => handleClickPhoto(p)} 
+              style={{ cursor: "pointer" }}
             >
-              ⬇ Download
-            </button>
+              <img
+                src={thumb}
+                alt={p.name || `wedding-photo-${i}`}
+                loading="lazy"
+              />
+              <div className="overlay">
+                <button
+                  className="download-btn"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Stops the PhotoViewer from opening
+                    handleDownload(p.url, p.name);
+                  }}
+                >
+                  ⬇ Download
+                </button>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
       </div>
 
-      <button className="load-btn" onClick={() => setPage(page + 1)}>
-        Load More
-      </button>
+      {/* --- Pagination Section --- */}
+      <div className="pagination-wrapper">
+        {hasMore ? (
+          <button className="load-btn" onClick={() => setPage(page + 1)}>
+            Load More
+          </button>
+        ) : (
+          <div className="no-more-container">
+            <p className="no-more-text">✨ No more photos found ✨</p>
+          </div>
+        )}
+      </div>
 
       {/* Render PhotoViewer */}
       {selectedPhoto && (
