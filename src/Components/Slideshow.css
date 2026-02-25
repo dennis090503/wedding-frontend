@@ -4,7 +4,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #f92f2f;
+    background-color: white;
     z-index: 999999; /* Higher than Navbar and Gallery */
     display: flex;
     flex-direction: column;
