@@ -7,31 +7,31 @@ function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [scrollPos, setScrollPos] = useState(0);
   const [isSlideshowActive, setIsSlideshowActive] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     fetchPhotos();
   }, [page, selectedEvent]);
 
-  const fetchPhotos = async () => {
-    const url =
-      selectedEvent === "All"
-        ? `https://wedding-backend-vvsy.onrender.com/photos?page=${page}`
-        : `https://wedding-backend-vvsy.onrender.com/photos?page=${page}&event=${selectedEvent}`;
+ const fetchPhotos = async () => {
+      setIsLoading(true); // Start loading
+      const url = selectedEvent === "All"
+          ? `https://wedding-backend-vvsy.onrender.com/photos?page=${page}`
+          : `https://wedding-backend-vvsy.onrender.com/photos?page=${page}&event=${selectedEvent}`;
 
-    try {
-      const res = await axios.get(url);
-
-      setPhotos((prev) => {
-        const newPhotos = res.data.filter(
-          (newItem) => !prev.some((p) => p._id === newItem._id)
-        );
-        return [...prev, ...newPhotos];
-      });
-    } catch (error) {
-      console.error("Error fetching photos:", error);
-    }
+      try {
+        const res = await axios.get(url);
+        setPhotos((prev) => {
+          const newPhotos = res.data.filter(
+            (newItem) => !prev.some((p) => p._id === newItem._id)
+          );
+          return [...prev, ...newPhotos];
+        });
+      } catch (error) {
+        console.error("Error fetching photos:", error);
+      } finally {
+        setIsLoading(false); // End loading
+      }
   };
-
   // Open PhotoViewer
   const handleClickPhoto = (photo) => {
     setScrollPos(window.scrollY);
@@ -121,15 +121,19 @@ function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
       </div>
 
       {/* --- Pagination Section --- */}
-      <div className="pagination-wrapper">
-        {hasMore ? (
+     <div className="pagination-wrapper">
+        {isLoading ? (
+          <p className="loading-text">Loading your memories...</p> 
+        ) : hasMore ? (
           <button className="load-btn" onClick={() => setPage(page + 1)}>
             Load More
           </button>
         ) : (
-          <div className="no-more-container">
-            <p className="no-more-text">✨ No more photos found ✨</p>
-          </div>
+          photos.length > 0 && (
+            <div className="no-more-container">
+              <p className="no-more-text">✨ No more photos found ✨</p>
+            </div>
+          )
         )}
       </div>
 
