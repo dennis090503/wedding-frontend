@@ -73,13 +73,14 @@ function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
   return (
     <div className="gallery-container">
       <h1 className="title">💍 Wedding Memories</h1>
+     <div className="top-controls">
       <button 
-        className="slideshow-fab" 
+        className="slideshow-btn-top" 
         onClick={() => setIsSlideshowActive(true)}
       >
         🎬 Play Slideshow
       </button>
-
+    </div>
       {/* Render the overlay when active */}
       {isSlideshowActive && (
         <Slideshow 
