@@ -32,7 +32,7 @@ function App() {
 
         // Simulate a small delay for the "loader" effect or wait for an API check
         setTimeout(() => {
-            if (inputPassword === "dennis2024") { // Set your password here
+            if (inputPassword === "geetawedssagar21022026") { // Set your password here
                 setIsAuthenticated(true);
             } else {
                 alert("Incorrect password!");

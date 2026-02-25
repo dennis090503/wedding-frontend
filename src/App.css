@@ -37,26 +37,28 @@
   }
 }
 /* Modern Wedding Theme Login */
+/* Update these specific blocks in App.css */
 .login-screen {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Soft wedding-style gradient */
-    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
-    font-family: 'Playfair Display', serif; /* Optional: adds a premium feel */
+    height: 100vh !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%) !important;
+    position: fixed !important; /* Ensures it covers the whole screen */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 9999;
 }
 
 .login-box {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 3rem;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
+    background: white !important;
+    padding: 3rem !important;
+    border-radius: 20px !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
+    text-align: center !important;
+    max-width: 400px !important;
+    width: 90% !important;
 }
 
 .login-box h2 {
