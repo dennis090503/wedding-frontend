@@ -3,16 +3,18 @@ import Navbar from "./Components/Navbar";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+
 function App() {
     const [selectedEvent, setSelectedEvent] = useState("All");
     const [page, setPage] = useState(1);
     const [photos, setPhotos] = useState([]);
     const [counts, setCounts] = useState({});
 
-    // New States for Security and Loading
+    // New States for Security, Loading, and Visibility
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isVerifying, setIsVerifying] = useState(false);
     const [inputPassword, setInputPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false); // Eye icon state
 
     useEffect(() => {
         const fetchCounts = async () => {
@@ -23,25 +25,24 @@ function App() {
                 console.error("Error fetching counts:", err);
             }
         };
-        fetchCounts(); // Don't forget to call it!
+        fetchCounts();
     }, []);
 
     const handleLogin = (e) => {
         e.preventDefault();
-        setIsVerifying(true); // Start the loader
+        setIsVerifying(true);
 
-        // Simulate a small delay for the "loader" effect or wait for an API check
         setTimeout(() => {
-            if (inputPassword === "geetawedssagar21022026") { // Set your password here
+            if (inputPassword === "geetawedssagar21022026") {
                 setIsAuthenticated(true);
             } else {
                 alert("Incorrect password!");
             }
-            setIsVerifying(false); // Stop the loader
+            setIsVerifying(false);
         }, 1000); 
     };
 
-    // 1. Loader View
+    // 1. Loader View (Centered via CSS flexbox)
     if (isVerifying) {
         return (
             <div className="loader-container">
@@ -59,20 +60,30 @@ function App() {
                     <h2>Private Gallery</h2>
                     <p>Please enter the password to view the photos.</p>
                     <form onSubmit={handleLogin}>
-                        <input 
-                            type="password" 
-                            placeholder="Password"
-                            value={inputPassword}
-                            onChange={(e) => setInputPassword(e.target.value)}
-                        />
-                        <button type="submit">Unlock</button>
+                        {/* New container for relative positioning of the eye icon */}
+                        <div className="password-container">
+                            <input 
+                                type={showPassword ? "text" : "password"} 
+                                placeholder="Password"
+                                value={inputPassword}
+                                onChange={(e) => setInputPassword(e.target.value)}
+                            />
+                            <button 
+                                type="button" 
+                                className="toggle-password"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? "🙈" : "👁️"}
+                            </button>
+                        </div>
+                        <button type="submit" className="unlock-btn">Unlock</button>
                     </form>
                 </div>
             </div>
         );
     }
 
-    // 3. Main Gallery View (Only shows if authenticated)
+    // 3. Main Gallery View
     return (
         <div>
             <Navbar
