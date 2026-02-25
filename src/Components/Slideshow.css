@@ -5,28 +5,17 @@
     width: 100vw;
     height: 100vh;
     background: #000;
-    z-index: 99999;
+    z-index: 100000;
     display: flex;
-    flex-direction: column;
-}
-
-.close-slideshow {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    border: 1px solid white;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .slideshow-content {
-    flex: 1;
+    width: 100%;
+    height: 100%;
     position: relative;
-    overflow: hidden;
 }
 
 .slide {
@@ -38,33 +27,35 @@
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+    
+    /* Initial state: hidden and slightly larger */
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-    transform: scale(1.1); /* Start slightly zoomed for a subtle zoom-out effect */
+    transform: scale(1.05);
+    transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
 
 .slide.active {
     opacity: 1;
-    transform: scale(1); /* Smoothly zooms to original size */
-    transition: opacity 1.5s ease-in-out, transform 5s linear;
+    transform: scale(1); /* Smoothly scales down to original size as it fades in */
 }
 
-.slideshow-footer {
-    padding: 20px;
-    background: rgba(0,0,0,0.5);
+/* Close button styling */
+.close-slideshow {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
     color: white;
-    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 100001;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.progress-bar {
-    width: 100%;
-    height: 3px;
-    background: rgba(255,255,255,0.2);
-    margin-top: 10px;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--wedding-plum);
-    transition: width 0.5s linear;
+.close-slideshow:hover {
+    background: rgba(255, 255, 255, 0.3);
 }

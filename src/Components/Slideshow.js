@@ -14,16 +14,19 @@ const Slideshow = ({ photos, onClose }) => {
   return (
     <div className="slideshow-overlay">
       <button className="close-slideshow" onClick={onClose}>✕ Close</button>
-      
       <div className="slideshow-content">
-        {photos.map((photo, index) => (
-          <div
-            key={photo._id}
-            className={`slide ${index === currentIndex ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${photo.url})` }}
-          />
-        ))}
-      </div>
+  {photos.map((photo, index) => (
+    <div
+      key={photo._id || index}
+      className={`slide ${index === currentIndex ? 'active' : ''}`}
+      style={{ 
+        backgroundImage: `url(${photo.url})`,
+        /* This prevents background images from loading all at once */
+        display: Math.abs(index - currentIndex) <= 1 ? 'block' : 'none' 
+      }}
+    />
+  ))}
+</div>
       
       <div className="slideshow-footer">
         <p>{photos[currentIndex]?.name || "Wedding Memories"}</p>

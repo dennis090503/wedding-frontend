@@ -188,3 +188,29 @@ button {
   background: #ff4d6d;
   transform: translateY(-5px);
 }
+
+.slideshow-fab {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--wedding-plum);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(136, 14, 79, 0.3);
+    cursor: pointer;
+    z-index: 999; /* Below the slideshow overlay, but above the gallery */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.slideshow-fab:hover {
+    background-color: #6a0b3d;
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 6px 20px rgba(136, 14, 79, 0.4);
+}
