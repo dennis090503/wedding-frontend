@@ -6,6 +6,7 @@ import PhotoViewer from "./PhotoViewer";
 function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [scrollPos, setScrollPos] = useState(0);
+  const [isSlideshowActive, setIsSlideshowActive] = useState(false);
 
   useEffect(() => {
     fetchPhotos();
@@ -72,7 +73,20 @@ function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
   return (
     <div className="gallery-container">
       <h1 className="title">💍 Wedding Memories</h1>
-      
+      <button 
+        className="slideshow-fab" 
+        onClick={() => setIsSlideshowActive(true)}
+      >
+        🎬 Play Slideshow
+      </button>
+
+      {/* Render the overlay when active */}
+      {isSlideshowActive && (
+        <Slideshow 
+          photos={photos} 
+          onClose={() => setIsSlideshowActive(false)} 
+        />
+      )}
       <div className="masonry">
         {photos.map((p, i) => {
           // Cloudinary dynamic optimization for thumbnails
@@ -122,6 +136,12 @@ function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
       {selectedPhoto && (
         <PhotoViewer photo={selectedPhoto} onClose={handleClose} />
       )}
+      {isSlideshowActive && (
+      <audio autoPlay loop id="wedding-music">
+        {/* Replace with your actual hosted mp3 or local file in /public */}
+        <source src="/wedding_song.mpeg" type="audio/mpeg" />
+      </audio>
+    )}
     </div>
   );
 }

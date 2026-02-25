@@ -1,0 +1,70 @@
+.slideshow-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+}
+
+.close-slideshow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 1px solid white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.slideshow-content {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    transform: scale(1.1); /* Start slightly zoomed for a subtle zoom-out effect */
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1); /* Smoothly zooms to original size */
+    transition: opacity 1.5s ease-in-out, transform 5s linear;
+}
+
+.slideshow-footer {
+    padding: 20px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    text-align: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--wedding-plum);
+    transition: width 0.5s linear;
+}
