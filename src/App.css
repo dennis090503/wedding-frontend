@@ -1,4 +1,4 @@
-/* KEEP THESE: Original React Defaults */
+/* --- Original React Defaults --- */
 .App {
   text-align: center;
 }
@@ -14,15 +14,15 @@
   }
 }
 
-/* PASTE NEW THEME BELOW THIS LINE */
-/* --- Global Theme Sync --- */
+/* --- Global Wedding Theme Variables --- */
 :root {
   --wedding-plum: #880e4f; 
   --wedding-pink: #fce4ec; 
   --wedding-gold: #c2a38a;
+  --input-bg: #ffffff;
 }
 
-/* --- Loader Centering Fix --- */
+/* --- Loader Centering --- */
 .loader-container {
     height: 100vh;
     width: 100vw;
@@ -46,7 +46,7 @@
     animation: App-logo-spin 1s linear infinite; 
 }
 
-/* --- Login Screen Theme & Alignment --- */
+/* --- Login Screen Layout --- */
 .login-screen {
     height: 100vh !important;
     width: 100vw !important;
@@ -61,7 +61,7 @@
 }
 
 .login-box {
-    background: white !important; /* Solid white background for the box */
+    background: white !important;
     padding: 2.5rem 1.5rem !important;
     border-radius: 24px !important;
     box-shadow: 0 10px 30px rgba(136, 14, 79, 0.1) !important;
@@ -85,7 +85,7 @@
     line-height: 1.4;
 }
 
-/* --- Mobile Alignment Fix for Form --- */
+/* --- Password Field & Eye Icon Fix --- */
 .login-box form {
     display: flex;
     flex-direction: column;
@@ -93,95 +93,56 @@
     width: 100%;
 }
 
-.login-box input {
-    width: 100% !important;
-    box-sizing: border-box; 
-    padding: 14px 20px !important;
-    margin-bottom: 1rem !important;
-    border: 1.5px solid #eee !important;
-    border-radius: 50px !important;
-    outline: none;
-    font-size: 1rem;
-    transition: 0.3s;
-    text-align: center;
-}
-
-.login-box input:focus {
-    border-color: var(--wedding-plum) !important;
-    background: #fff;
-}
-
-.login-box button {
-    width: 100% !important;
-    padding: 14px !important;
-    background-color: var(--wedding-plum) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 50px !important;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-    transition: transform 0.2s, background-color 0.2s;
-}
-
-.login-box button:hover {
-    background-color: #6a0b3d !important;
-    transform: translateY(-2px);
-}
-
-.login-box button:active {
-    transform: translateY(0);
-}
-/* Container to hold both input and eye icon */
 .password-container {
     position: relative;
     width: 100%;
-    display: flex;
-    align-items: center;
     margin-bottom: 1rem;
+    display: block; /* Ensures it takes full width */
 }
 
 .password-container input {
     width: 100% !important;
-    box-sizing: border-box; 
-    padding: 14px 50px 14px 20px !important; /* Extra right padding for the eye */
-    margin-bottom: 0 !important; 
-    border: 1.5px solid #eee !important;
+    box-sizing: border-box !important;
+    padding: 14px 50px 14px 20px !important; /* Right padding for the eye */
+    border: 1.5px solid #ddd !important;
     border-radius: 50px !important;
-    background-color: white !important; /* Explicitly white */
-    color: #333 !important; /* Dark text for readability */
-    outline: none;
-    font-size: 1rem;
-    transition: 0.3s;
+    background-color: var(--input-bg) !important;
+    color: #333 !important;
+    outline: none !important;
+    font-size: 1rem !important;
     text-align: center;
+    transition: border-color 0.3s;
 }
 
 .password-container input:focus {
     border-color: var(--wedding-plum) !important;
-    box-shadow: 0 0 0 3px rgba(136, 14, 79, 0.1);
 }
 
-/* The Eye Icon Button */
+/* The Eye Icon Button Fix */
 .toggle-password {
-    position: absolute;
-    right: 18px; /* Slightly adjusted placement */
-    top: 50%;
-    transform: translateY(-50%); /* Centers eye vertically */
-    background: transparent !important;
+    position: absolute !important;
+    right: 15px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: none !important;
     border: none !important;
     width: auto !important;
-    padding: 5px !important; /* Larger touch target for mobile */
+    height: auto !important;
+    padding: 5px !important;
     color: var(--wedding-plum) !important;
-    cursor: pointer;
-    font-size: 1.2rem;
-    z-index: 10;
-}
-.toggle-password:hover {
-    transform: none !important; /* Prevent the hover-up effect of main buttons */
-    opacity: 0.7;
+    cursor: pointer !important;
+    font-size: 1.2rem !important;
+    z-index: 10 !important;
+    box-shadow: none !important; /* Removes button shadows */
+    min-width: unset !important;
 }
 
+.toggle-password:hover {
+    transform: translateY(-50%) scale(1.1) !important;
+    opacity: 0.8;
+}
+
+/* --- Unlock Button --- */
 .unlock-btn {
     width: 100% !important;
     padding: 14px !important;
@@ -193,8 +154,18 @@
     font-weight: 600;
     font-size: 1rem;
     letter-spacing: 0.5px;
-    margin-top: 0.5rem; /* Space between input and button */
+    transition: background-color 0.2s, transform 0.1s;
 }
+
+.unlock-btn:hover {
+    background-color: #6a0b3d !important;
+}
+
+.unlock-btn:active {
+    transform: scale(0.98);
+}
+
+/* --- Animations --- */
 @keyframes App-logo-spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
