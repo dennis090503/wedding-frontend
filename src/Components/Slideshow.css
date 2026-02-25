@@ -1,34 +1,36 @@
 .slideshow-overlay {
-    position: fixed;
+    position: fixed; /* Ensures it stays on top of the whole screen */
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: #000;
-    z-index: 100000;
+    background-color: #f92f2f;
+    z-index: 999999; /* Higher than Navbar and Gallery */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.slideshow-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 }
 
-.slideshow-content {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
 .slide {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background-size: contain;
+    background-size: contain; /* Keeps the whole photo visible without cropping */
     background-position: center;
     background-repeat: no-repeat;
-    
-    /* Initial state: hidden and slightly larger */
     opacity: 0;
     transform: scale(1.05);
     transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
@@ -36,26 +38,21 @@
 
 .slide.active {
     opacity: 1;
-    transform: scale(1); /* Smoothly scales down to original size as it fades in */
+    transform: scale(1);
 }
 
 /* Close button styling */
 .close-slideshow {
     position: absolute;
-    top: 30px;
-    right: 30px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
+    top: 25px;
+    right: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 10px 20px;
+    padding: 8px 18px;
     border-radius: 50px;
     cursor: pointer;
-    z-index: 100001;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.close-slideshow:hover {
-    background: rgba(255, 255, 255, 0.3);
+    z-index: 1000000;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
 }

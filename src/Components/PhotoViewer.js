@@ -20,7 +20,7 @@ function PhotoViewer({ photo, onClose }) {
      
         <img src={photo.url} alt={photo.name} />
         <button className="download-btn" onClick={handleDownload}>Download</button>
-        <button className="close-btn" onClick={onClose}>Back</button>
+        <button className="close-btn" onClick={onClose}>✕ Close</button>
     </div>
   );
 }

@@ -188,7 +188,7 @@ button {
   background: #ff4d6d;
   transform: translateY(-5px);
 }
-
+/* --- Floating Play Button --- */
 .slideshow-fab {
     position: fixed;
     bottom: 30px;
@@ -197,20 +197,55 @@ button {
     background-color: var(--wedding-plum);
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 12px 28px;
     border-radius: 50px;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(136, 14, 79, 0.3);
+    box-shadow: 0 4px 20px rgba(136, 14, 79, 0.4);
     cursor: pointer;
-    z-index: 999; /* Below the slideshow overlay, but above the gallery */
+    z-index: 999; /* Stays above the gallery but below the slideshow overlay */
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .slideshow-fab:hover {
+    transform: translateX(-50%) translateY(-5px);
+    box-shadow: 0 8px 25px rgba(136, 14, 79, 0.5);
     background-color: #6a0b3d;
-    transform: translateX(-50%) translateY(-3px);
-    box-shadow: 0 6px 20px rgba(136, 14, 79, 0.4);
+}
+
+/* --- Slideshow Animation Fix --- */
+.slideshow-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 100000; /* Ensure it covers everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Smooth Transition Logic */
+    opacity: 0;
+    transform: scale(1.02); /* Slight scale for the "Ken Burns" effect */
+    transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1); /* Settles into size as it fades in */
 }
