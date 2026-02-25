@@ -46,13 +46,22 @@
     position: absolute;
     top: 25px;
     right: 25px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: white;
-    padding: 8px 18px;
+    background: rgba(0, 0, 0, 0.5) !important; /* Semi-transparent black background */
+    backdrop-filter: blur(8px); /* Blurs the image behind the button */
+    color: white !important;
+    border: 1.5px solid rgba(244, 53, 53, 0.3) !important;
+    padding: 10px 22px;
     border-radius: 50px;
     cursor: pointer;
-    z-index: 1000000;
-    font-weight: 600;
-    backdrop-filter: blur(5px);
+    z-index: 1000001; /* Highest priority */
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.close-slideshow:hover {
+    background: rgba(136, 14, 79, 0.8) !important; /* Changes to wedding plum on hover */
+    transform: scale(1.05);
 }
