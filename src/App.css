@@ -61,7 +61,7 @@
 }
 
 .login-box {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: white !important; /* Solid white background for the box */
     padding: 2.5rem 1.5rem !important;
     border-radius: 24px !important;
     box-shadow: 0 10px 30px rgba(136, 14, 79, 0.1) !important;
@@ -139,33 +139,61 @@
     width: 100%;
     display: flex;
     align-items: center;
-    margin-bottom: 1rem; /* Replaces the margin on the input */
+    margin-bottom: 1rem;
 }
 
 .password-container input {
-    margin-bottom: 0 !important; /* Remove bottom margin to align with container */
-    padding-right: 50px !important; /* Make room for the eye icon */
+    width: 100% !important;
+    box-sizing: border-box; 
+    padding: 14px 50px 14px 20px !important; /* Extra right padding for the eye */
+    margin-bottom: 0 !important; 
+    border: 1.5px solid #eee !important;
+    border-radius: 50px !important;
+    background-color: white !important; /* Explicitly white */
+    color: #333 !important; /* Dark text for readability */
+    outline: none;
+    font-size: 1rem;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.password-container input:focus {
+    border-color: var(--wedding-plum) !important;
+    box-shadow: 0 0 0 3px rgba(136, 14, 79, 0.1);
 }
 
 /* The Eye Icon Button */
 .toggle-password {
     position: absolute;
-    right: 15px;
-    background: none !important;
+    right: 18px; /* Slightly adjusted placement */
+    top: 50%;
+    transform: translateY(-50%); /* Centers eye vertically */
+    background: transparent !important;
     border: none !important;
     width: auto !important;
-    padding: 0 !important;
+    padding: 5px !important; /* Larger touch target for mobile */
     color: var(--wedding-plum) !important;
     cursor: pointer;
     font-size: 1.2rem;
     z-index: 10;
-    transition: none !important;
-    box-shadow: none !important;
 }
-
 .toggle-password:hover {
     transform: none !important; /* Prevent the hover-up effect of main buttons */
     opacity: 0.7;
+}
+
+.unlock-btn {
+    width: 100% !important;
+    padding: 14px !important;
+    background-color: var(--wedding-plum) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50px !important;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    margin-top: 0.5rem; /* Space between input and button */
 }
 @keyframes App-logo-spin {
     from { transform: rotate(0deg); }
