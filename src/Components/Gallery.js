@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Gallery.css";
 import PhotoViewer from "./PhotoViewer";
-
+import Slideshow from "./Slideshow"; 
 function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [scrollPos, setScrollPos] = useState(0);
