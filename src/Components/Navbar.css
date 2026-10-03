@@ -1,4 +1,8 @@
-/* Navbar Container & Sticky Wrapper */
+/* ===================================================
+   NAVBAR — Dual Layout: Desktop pill + Mobile accordion
+   =================================================== */
+
+/* Sticky wrapper shared by both layouts */
 .navbar-wrapper {
   position: sticky;
   top: 15px;
@@ -7,23 +11,25 @@
   justify-content: center;
   width: 100%;
   padding: 0 15px;
-  pointer-events: none;
 }
 
-.navbar-container {
+/* ===========================
+   DESKTOP: Horizontal pills
+   =========================== */
+.navbar-desktop {
+  display: flex;
   position: relative;
-  pointer-events: auto;
   max-width: 100%;
   border-radius: 50px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(232, 180, 184, 0.4);
   box-shadow: 0 8px 30px rgba(92, 6, 40, 0.08);
   overflow: hidden;
+  pointer-events: auto;
 }
 
-/* Edge Fade Gradients on Mobile Horizontal Scroll */
 .navbar-fade-left,
 .navbar-fade-right {
   position: absolute;
@@ -32,8 +38,6 @@
   width: 24px;
   z-index: 2;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
 .navbar-fade-left {
@@ -49,7 +53,7 @@
 .navbar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   padding: 6px 10px;
   overflow-x: auto;
   scroll-behavior: smooth;
@@ -62,12 +66,11 @@
   display: none;
 }
 
-/* Buttons */
 .navbar button {
   background: transparent;
   border: none;
   padding: 10px 20px;
-  min-height: 44px; /* Apple HIG touch target min height */
+  min-height: 44px;
   min-width: 44px;
   border-radius: 25px;
   cursor: pointer;
@@ -76,12 +79,10 @@
   font-size: 14px;
   color: var(--wedding-plum);
   letter-spacing: 0.3px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  gap: 7px;
   white-space: nowrap;
   scroll-snap-align: center;
   flex-shrink: 0;
@@ -89,14 +90,13 @@
 
 .navbar button:hover {
   background: rgba(92, 6, 40, 0.06);
-  color: var(--wedding-plum-hover);
-  transform: translateY(-1px);
+  color: var(--wedding-plum);
 }
 
 .navbar .active {
   background: linear-gradient(135deg, var(--wedding-plum) 0%, #8a002e 100%) !important;
   color: #ffffff !important;
-  box-shadow: 0 6px 18px rgba(92, 6, 40, 0.25);
+  box-shadow: 0 5px 16px rgba(92, 6, 40, 0.25);
   font-weight: 600;
 }
 
@@ -104,7 +104,7 @@
   transform: scale(0.96);
 }
 
-/* Count Badge */
+/* Count badge — shared */
 .count-badge {
   background: rgba(92, 6, 40, 0.08);
   color: var(--wedding-plum);
@@ -115,46 +115,194 @@
   min-width: 20px;
   text-align: center;
   border: 1px solid rgba(92, 6, 40, 0.12);
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
+  line-height: 1.4;
 }
 
-.navbar .active .count-badge {
+.navbar .active .count-badge,
+.count-badge.active-badge {
+  background: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===========================
+   MOBILE: Collapsible accordion
+   (hidden on desktop)
+   =========================== */
+.navbar-mobile {
+  display: none;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(92, 6, 40, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(232, 180, 184, 0.45);
+}
+
+/* Compact trigger row */
+.mobile-trigger {
+  width: 100%;
+  min-height: 54px;
+  padding: 12px 18px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  font-family: var(--wedding-body-font);
+  color: var(--wedding-plum);
+  transition: background 0.2s ease;
+}
+
+.mobile-trigger:hover {
+  background: rgba(92, 6, 40, 0.04);
+}
+
+.mobile-trigger:active {
+  background: rgba(92, 6, 40, 0.07);
+}
+
+.mobile-trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobile-selected-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(135deg, var(--wedding-plum), #8a002e);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 50px;
+  letter-spacing: 0.3px;
+}
+
+.mobile-trigger-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.total-count-hint {
+  font-size: 12px;
+  color: var(--wedding-text-muted);
+  font-weight: 400;
+}
+
+.chevron-icon {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--wedding-plum);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: 1;
+}
+
+.chevron-icon.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu panel */
+.mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease;
+  opacity: 0;
+  border-top: 1px solid transparent;
+}
+
+.mobile-menu.open {
+  max-height: 500px;
+  opacity: 1;
+  border-top-color: rgba(232, 180, 184, 0.3);
+}
+
+/* Individual menu row */
+.mobile-menu-item {
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(232, 180, 184, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: var(--wedding-body-font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--wedding-plum);
+  text-align: left;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mobile-menu-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-menu-item:hover {
+  background: rgba(92, 6, 40, 0.05);
+}
+
+.mobile-menu-item:active {
+  background: rgba(92, 6, 40, 0.1);
+  transform: scale(0.99);
+}
+
+.mobile-menu-item.active {
+  background: linear-gradient(135deg, var(--wedding-plum), #8a002e) !important;
+  color: #ffffff !important;
+}
+
+.mobile-menu-item.active .count-badge {
   background: rgba(255, 255, 255, 0.25);
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* Mobile responsive refinements (< 768px) */
-@media (max-width: 768px) {
+.mobile-event-name {
+  font-size: 14px;
+  letter-spacing: 0.3px;
+}
+
+/* ===========================
+   RESPONSIVE BREAKPOINTS
+   =========================== */
+@media (min-width: 768px) {
+  /* Desktop: show pill nav, hide mobile */
+  .navbar-desktop {
+    display: flex;
+  }
+  .navbar-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile: hide desktop pill nav, show collapsible */
   .navbar-wrapper {
     top: 10px;
-    padding: 0 10px;
+    padding: 0 12px;
+    justify-content: stretch;
   }
-
-  .navbar-container {
-    border-radius: 30px;
+  .navbar-desktop {
+    display: none;
   }
-
-  .navbar-fade-left,
-  .navbar-fade-right {
-    opacity: 1;
-  }
-
-  .navbar {
-    gap: 6px;
-    padding: 5px 8px;
-  }
-
-  .navbar button {
-    padding: 8px 14px;
-    min-height: 44px;
-    font-size: 13px;
-    gap: 6px;
-  }
-
-  .count-badge {
-    font-size: 10px;
-    padding: 1px 6px;
-    min-width: 16px;
+  .navbar-mobile {
+    display: block;
+    width: 100%;
+    max-width: 100%;
   }
 }

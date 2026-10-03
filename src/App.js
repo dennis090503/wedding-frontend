@@ -24,6 +24,11 @@ function App() {
   const [attemptsLeft, setAttemptsLeft] = useState(5);
   const [isRateLimited, setIsRateLimited] = useState(false);
 
+  // Fire-and-forget health ping — warms up Render free-tier backend on first visit
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/health`).catch(() => {});
+  }, []);
+
   useEffect(() => {
     if (isAuthenticated) {
       const fetchCounts = async () => {
