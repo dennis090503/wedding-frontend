@@ -1,193 +1,303 @@
-/* --- Original React Defaults --- */
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-/* --- Global Wedding Theme Variables --- */
+/* --- Global Wedding Theme & Design System --- */
 :root {
-  --wedding-plum: #880e4f; 
-  --wedding-pink: #fce4ec; 
-  --wedding-gold: #c2a38a;
+  --wedding-plum: #5c0628;        /* Deep luxury burgundy */
+  --wedding-plum-hover: #42041c;
+  --wedding-pink: #fce4ec;        /* Soft blush pink */
+  --wedding-gold: #c2a38a;        /* Elegant champagne gold */
+  --wedding-cream: #fffaf5;       /* Warm soft cream */
+  --wedding-rose-gold: #e8b4b8;   /* Rose gold accent */
+  --wedding-text-dark: #2c1820;   /* Rich dark text */
+  --wedding-text-muted: #6b4d57;  /* Soft muted text */
+  --wedding-heading-font: 'Cormorant Garamond', Georgia, serif;
+  --wedding-body-font: 'Inter', 'Poppins', -apple-system, sans-serif;
   --input-bg: #ffffff;
+  --card-shadow: 0 10px 30px rgba(92, 6, 40, 0.08);
+  --card-shadow-hover: 0 20px 40px rgba(92, 6, 40, 0.16);
 }
 
-/* --- Loader Centering --- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--wedding-cream);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(232, 180, 184, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(252, 228, 236, 0.3) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(255, 250, 245, 0.8) 0px, transparent 100%);
+  font-family: var(--wedding-body-font);
+  color: var(--wedding-text-dark);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .heading-font {
+  font-family: var(--wedding-heading-font);
+}
+
+/* --- Premium Loader View --- */
 .loader-container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--wedding-pink);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--wedding-cream);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  gap: 20px;
+}
+
+/* Wedding Heart Ring Loading Animation */
+.spinner-wrapper {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid rgba(136, 14, 79, 0.1);
-    border-top: 4px solid var(--wedding-plum);
-    border-radius: 50%;
-    animation: App-logo-spin 1s linear infinite; 
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(232, 180, 184, 0.3);
+  border-top: 3px solid var(--wedding-plum);
+  border-radius: 50%;
+  animation: wedding-spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.heart-icon {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: heart-pulse 1.2s ease-in-out infinite alternate;
+}
+
+.loader-container p {
+  font-family: var(--wedding-heading-font);
+  font-size: 1.4rem;
+  color: var(--wedding-plum);
+  letter-spacing: 1px;
+  font-style: italic;
+  margin: 0;
 }
 
 /* --- Login Screen Layout --- */
 .login-screen {
-    height: 100vh !important;
-    width: 100vw !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    background-color: var(--wedding-pink) !important;
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    z-index: 9999;
+  height: 100vh !important;
+  width: 100vw !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: radial-gradient(circle at center, #fffaf5 0%, #f7e8ec 100%) !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* Subtle Floral Lace Pattern overlay */
+.login-screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(var(--wedding-rose-gold) 0.75px, transparent 0.75px);
+  background-size: 24px 24px;
+  opacity: 0.25;
+  pointer-events: none;
 }
 
 .login-box {
-    background: white !important;
-    padding: 2.5rem 1.5rem !important;
-    border-radius: 24px !important;
-    box-shadow: 0 10px 30px rgba(136, 14, 79, 0.1) !important;
-    text-align: center !important;
-    max-width: 350px !important;
-    width: 85% !important;
-    border: 1px solid rgba(136, 14, 79, 0.05);
+  position: relative;
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 3rem 2.2rem !important;
+  border-radius: 28px !important;
+  box-shadow: 0 20px 60px rgba(92, 6, 40, 0.12), 0 0 0 1px rgba(232, 180, 184, 0.4) !important;
+  text-align: center !important;
+  max-width: 400px !important;
+  width: 100% !important;
+  transition: transform 0.3s ease;
+}
+
+.login-box.shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.login-header-ring {
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  animation: float-gentle 3s ease-in-out infinite;
 }
 
 .login-box h2 {
-    color: var(--wedding-plum);
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
+  color: var(--wedding-plum);
+  font-size: 2.2rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .login-box p {
-    color: #555;
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
-    line-height: 1.4;
+  color: var(--wedding-text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.8rem;
+  line-height: 1.5;
 }
 
-/* --- Password Field & Eye Icon Fix --- */
 .login-box form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .password-container {
-    position: relative;
-    width: 100%;
-    margin-bottom: 1rem;
-    display: block; /* Ensures it takes full width */
+  position: relative;
+  width: 100%;
+  margin-bottom: 1.2rem;
 }
 
 .password-container input {
-    width: 100% !important;
-    box-sizing: border-box !important;
-    padding: 14px 50px 14px 20px !important; /* Right padding for the eye */
-    border: 1.5px solid #ddd !important;
-    border-radius: 50px !important;
-    background-color: var(--input-bg) !important;
-    color: #333 !important;
-    outline: none !important;
-    font-size: 1rem !important;
-    text-align: center;
-    transition: border-color 0.3s;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 16px 50px 16px 20px !important;
+  border: 1.5px solid rgba(232, 180, 184, 0.6) !important;
+  border-radius: 50px !important;
+  background-color: var(--input-bg) !important;
+  color: var(--wedding-text-dark) !important;
+  outline: none !important;
+  font-size: 1rem !important;
+  font-family: var(--wedding-body-font);
+  text-align: center;
+  transition: all 0.3s ease;
+  min-height: 48px;
 }
 
 .password-container input:focus {
-    border-color: var(--wedding-plum) !important;
+  border-color: var(--wedding-plum) !important;
+  box-shadow: 0 0 0 4px rgba(92, 6, 40, 0.1) !important;
 }
 
-/* The Eye Icon Button Fix */
 .toggle-password {
-    position: absolute !important;
-    right: 15px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    background: none !important;
-    border: none !important;
-    width: auto !important;
-    height: auto !important;
-    padding: 5px !important;
-    color: var(--wedding-plum) !important;
-    cursor: pointer !important;
-    font-size: 1.2rem !important;
-    z-index: 10 !important;
-    box-shadow: none !important; /* Removes button shadows */
-    min-width: unset !important;
+  position: absolute !important;
+  right: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
+  padding: 8px !important;
+  color: var(--wedding-plum) !important;
+  cursor: pointer !important;
+  font-size: 1.2rem !important;
+  z-index: 10 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
 }
 
 .toggle-password:hover {
-    transform: translateY(-50%) scale(1.1) !important;
-    opacity: 0.8;
+  transform: translateY(-50%) scale(1.1) !important;
+  background: rgba(92, 6, 40, 0.05) !important;
 }
 
 /* --- Unlock Button --- */
 .unlock-btn {
-    width: 100% !important;
-    padding: 14px !important;
-    background-color: var(--wedding-plum) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 50px !important;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-    transition: background-color 0.2s, transform 0.1s;
+  width: 100% !important;
+  padding: 15px !important;
+  min-height: 48px !important;
+  background: linear-gradient(135deg, var(--wedding-plum) 0%, #8a002e 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 50px !important;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(92, 6, 40, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .unlock-btn:hover {
-    background-color: #6a0b3d !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(92, 6, 40, 0.35) !important;
+  background: linear-gradient(135deg, #700832 0%, #9e0035 100%) !important;
 }
 
 .unlock-btn:active {
-    transform: scale(0.98);
-}
-.no-more-text {
-    color: var(--wedding-plum);
-    font-family: 'Playfair Display', serif; /* Or your main font */
-    font-style: italic;
-    font-size: 1.2rem;
-    margin-top: 20px;
-    opacity: 0.7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
+  transform: scale(0.97) translateY(0) !important;
 }
 
-/* Adds elegant lines to either side of the text */
-.no-more-text::before,
-.no-more-text::after {
-    content: "";
-    height: 1px;
-    width: 50px;
-    background-color: var(--wedding-plum);
-    opacity: 0.3;
+/* Error and Rate Limit messages */
+.auth-error-msg {
+  color: #d32f2f;
+  background: #fde8e8;
+  border: 1px solid #f8b4b4;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  margin-bottom: 1.2rem;
+  width: 100%;
+  animation: fadeIn 0.3s ease;
 }
+
+.auth-lockout-msg {
+  color: #9c1c1c;
+  background: #fdf2f2;
+  border: 1px solid #f8b4b4;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+  width: 100%;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
 /* --- Animations --- */
-@keyframes App-logo-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@keyframes wedding-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes heart-pulse {
+  from { transform: scale(0.85); }
+  to { transform: scale(1.15); }
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }

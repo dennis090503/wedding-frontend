@@ -1,152 +1,205 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import axios from "axios";
+import Masonry from "react-masonry-css";
 import "./Gallery.css";
-import PhotoViewer from "./PhotoViewer";
-import Slideshow from "./Slideshow"; 
-function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [scrollPos, setScrollPos] = useState(0);
-  const [isSlideshowActive, setIsSlideshowActive] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    fetchPhotos();
-  }, [page, selectedEvent]);
 
- const fetchPhotos = async () => {
-      setIsLoading(true); // Start loading
-      const url = selectedEvent === "All"
-          ? `https://wedding-backend-vvsy.onrender.com/photos?page=${page}`
-          : `https://wedding-backend-vvsy.onrender.com/photos?page=${page}&event=${selectedEvent}`;
+// Lazy load modals for performance optimization
+const PhotoViewer = lazy(() => import("./PhotoViewer"));
+const Slideshow = lazy(() => import("./Slideshow"));
 
-      try {
-        const res = await axios.get(url);
-        setPhotos((prev) => {
-          const newPhotos = res.data.filter(
-            (newItem) => !prev.some((p) => p._id === newItem._id)
-          );
-          return [...prev, ...newPhotos];
-        });
-      } catch (error) {
-        console.error("Error fetching photos:", error);
-      } finally {
-        setIsLoading(false); // End loading
-      }
-  };
-  // Open PhotoViewer
-  const handleClickPhoto = (photo) => {
-    setScrollPos(window.scrollY);
-    setSelectedPhoto(photo);
-  };
+const BACKEND_URL = "https://wedding-backend-vvsy.onrender.com";
 
-  // Close PhotoViewer
-  const handleClose = () => {
-    setSelectedPhoto(null);
-    window.scrollTo(0, scrollPos);
-  };
+const breakpointColumnsObj = {
+  default: 4,
+  1100: 3,
+  768: 2,
+  500: 2,
+};
 
-  const handleDownload = async (url, filename) => {
+function GalleryCard({ photo, index, onSelect }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Cloudinary dynamic optimization: w_600 for high DPI crispness on grid cards
+  const thumbUrl = photo.url
+    ? photo.url.replace("/upload/", "/upload/w_600,q_auto,f_auto/")
+    : "";
+
+  const handleDownload = async (e) => {
+    e.stopPropagation();
     try {
-      const response = await fetch(url);
+      const response = await fetch(photo.url);
       const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);
-      
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.download = filename || "wedding-photo.jpg";
+      link.download = photo.name || `wedding-photo-${index + 1}.jpg`;
       document.body.appendChild(link);
       link.click();
-      
-      // Cleanup
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
-      console.error("Download failed", error);
-      // Fallback: open in new tab if blob fails
-      window.open(url, "_blank");
+      window.open(photo.url, "_blank");
     }
   };
 
-  // Determine if there are more photos to load based on the counts from backend
+  return (
+    <div
+      className={`card ${isLoaded ? "loaded" : "loading"}`}
+      onClick={() => onSelect(index)}
+    >
+      {!isLoaded && <div className="skeleton-loader"></div>}
+      <img
+        src={thumbUrl}
+        alt={photo.name || `wedding-photo-${index + 1}`}
+        loading="lazy"
+        onLoad={() => setIsLoaded(true)}
+        className={isLoaded ? "fade-in" : "hidden"}
+      />
+      <div className="overlay">
+        <button
+          className="download-btn"
+          onClick={handleDownload}
+          aria-label="Download photo"
+        >
+          ⬇ Download
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function Gallery({ selectedEvent, page, setPage, photos, setPhotos, counts }) {
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [scrollPos, setScrollPos] = useState(0);
+  const [isSlideshowActive, setIsSlideshowActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPhotos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, selectedEvent]);
+
+  const fetchPhotos = async () => {
+    setIsLoading(true);
+    const url =
+      selectedEvent === "All"
+        ? `${BACKEND_URL}/photos?page=${page}`
+        : `${BACKEND_URL}/photos?page=${page}&event=${selectedEvent}`;
+
+    try {
+      const res = await axios.get(url);
+      setPhotos((prev) => {
+        const newPhotos = res.data.filter(
+          (newItem) => !prev.some((p) => p._id === newItem._id)
+        );
+        return [...prev, ...newPhotos];
+      });
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOpenPhoto = (index) => {
+    setScrollPos(window.scrollY);
+    setSelectedIndex(index);
+  };
+
+  const handleClosePhoto = () => {
+    setSelectedIndex(null);
+    window.scrollTo(0, scrollPos);
+  };
+
   const totalPhotosInEvent = counts[selectedEvent] || 0;
   const hasMore = photos.length < totalPhotosInEvent;
 
   return (
     <div className="gallery-container">
-      <h1 className="title">💍 Wedding Memories</h1>
-     <div className="top-controls">
-      <button 
-        className="slideshow-btn-top" 
-        onClick={() => setIsSlideshowActive(true)}
-      >
-        🎬 Play Slideshow
-      </button>
-    </div>
-      {/* Render the overlay when active */}
-      {isSlideshowActive && (
-        <Slideshow 
-          photos={photos} 
-          onClose={() => setIsSlideshowActive(false)} 
-        />
+      <header className="gallery-header">
+        <h1 className="title">✨ Geeta &amp; Sagar ✨</h1>
+        <p className="subtitle">Wedding Memories &amp; Celebrations</p>
+
+        <div className="top-controls">
+          <button
+            className="slideshow-btn-top"
+            onClick={() => setIsSlideshowActive(true)}
+          >
+            <span>🎬 Play Slideshow</span>
+          </button>
+        </div>
+      </header>
+
+      {/* React Masonry Grid - Zero Layout Shift on Append */}
+      {photos.length > 0 ? (
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          {photos.map((photo, index) => (
+            <GalleryCard
+              key={photo._id || index}
+              photo={photo}
+              index={index}
+              onSelect={handleOpenPhoto}
+            />
+          ))}
+        </Masonry>
+      ) : (
+        !isLoading && (
+          <div className="empty-state">
+            <div className="empty-icon">💍</div>
+            <h3>No Photos Yet</h3>
+            <p>We haven't added photos to "{selectedEvent}" category yet. Check back soon!</p>
+          </div>
+        )
       )}
-      <div className="masonry">
-        {photos.map((p, i) => {
-          // Cloudinary dynamic optimization for thumbnails
-          const thumb = p.url.replace("/upload/", "/upload/w_400,q_auto/");
-          return (
-            <div 
-              className="card" 
-              key={p._id || i} 
-              onClick={() => handleClickPhoto(p)} 
-              style={{ cursor: "pointer" }}
-            >
-              <img
-                src={thumb}
-                alt={p.name || `wedding-photo-${i}`}
-                loading="lazy"
-              />
-              <div className="overlay">
-                <button
-                  className="download-btn"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Stops the PhotoViewer from opening
-                    handleDownload(p.url, p.name);
-                  }}
-                >
-                  ⬇ Download
-                </button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
 
       {/* --- Pagination Section --- */}
-     <div className="pagination-wrapper">
+      <div className="pagination-wrapper">
         {isLoading ? (
-          <p className="loading-text">Loading your memories...</p> 
+          <div className="loading-state">
+            <div className="mini-ring-spinner"></div>
+            <p className="loading-text">Loading memories...</p>
+          </div>
         ) : hasMore ? (
           <button className="load-btn" onClick={() => setPage(page + 1)}>
-            Load More
+            <span>Load More Photos</span>
+            <span className="load-badge">({photos.length} / {totalPhotosInEvent})</span>
           </button>
         ) : (
           photos.length > 0 && (
             <div className="no-more-container">
-              <p className="no-more-text">✨ No more photos found ✨</p>
+              <p className="no-more-text">✨ You've reached the end of this collection ✨</p>
             </div>
           )
         )}
       </div>
 
-      {/* Render PhotoViewer */}
-      {selectedPhoto && (
-        <PhotoViewer photo={selectedPhoto} onClose={handleClose} />
-      )}
+      {/* Lazy loaded modals */}
+      <Suspense fallback={null}>
+        {selectedIndex !== null && (
+          <PhotoViewer
+            photos={photos}
+            currentIndex={selectedIndex}
+            setCurrentIndex={setSelectedIndex}
+            onClose={handleClosePhoto}
+          />
+        )}
+        {isSlideshowActive && (
+          <Slideshow
+            photos={photos}
+            onClose={() => setIsSlideshowActive(false)}
+          />
+        )}
+      </Suspense>
+
       {isSlideshowActive && (
-      <audio autoPlay loop id="wedding-music">
-        {/* Replace with your actual hosted mp3 or local file in /public */}
-        <source src="/wedding_song.mpeg" type="audio/mpeg" />
-      </audio>
-    )}
+        <audio autoPlay loop id="wedding-music">
+          <source src="/wedding_song.mpeg" type="audio/mpeg" />
+        </audio>
+      )}
     </div>
   );
 }
